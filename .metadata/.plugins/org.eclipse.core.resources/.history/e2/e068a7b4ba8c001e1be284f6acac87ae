@@ -1,0 +1,74 @@
+package sistemasOperacionais;
+
+import java.util.Scanner;
+
+public class Main {
+
+	private static Scanner key;
+
+	public static void main(String[] args) {
+		key = new Scanner(System.in);
+		Escalonador escalonador = new Escalonador();
+		int opcao;
+
+		do {
+			System.out.println("Escolha uma opção:");
+			System.out.println("1. Adicionar processos");
+			System.out.println("2. Executar FCFS");
+			System.out.println("3. Executar SJF Não-Preemptivo");
+			System.out.println("4. Executar SJF Preemptivo");
+			System.out.println("5. Executar Prioridade Não-Preemptivo");
+			System.out.println("6. Executar Prioridade Preemptivo");
+			System.out.println("7. Executar Round-Robin");
+			System.out.println("8. Exibir resultados");
+			System.out.println("0. Sair");
+
+			opcao = key.nextInt();
+
+			switch (opcao) {
+			case 1:
+				System.out.println("Digite o tempo de execução do processo:");
+			    int tempoExecucao = key.nextInt();
+			    System.out.println("Digite o tempo de chegada do processo:");
+			    int tempoChegada = key.nextInt();
+			    System.out.println("Digite a prioridade do processo:");
+			    int prioridade = key.nextInt();
+
+			    Processo novoProcesso = new Processo(tempoExecucao, tempoChegada, prioridade);
+			    escalonador.adicionarProcesso(novoProcesso);
+			    System.out.println("Processo adicionado com sucesso!");
+				break;
+			case 2:
+				escalonador.FCFS();
+				break;
+			case 3:
+				escalonador.SJF_NaoPreemptivo();
+				break;
+			case 4:
+				escalonador.SJF_Preemptivo();
+				break;
+			case 5:
+				escalonador.Prioridade_NaoPreemptivo();
+				break;
+			case 6:
+				escalonador.Prioridade_Preemptivo();
+				break;
+			case 7:
+				System.out.println("Informe o quantum para o Round-Robin:");
+			    int quantum = key.nextInt();
+			    escalonador.RoundRobin(quantum);
+				break;
+			case 8:
+				escalonador.mostrarResultado();
+				break;
+			case 0:
+				System.out.println("Encerrando o programa...");
+				break;
+			default:
+				System.out.println("Opção inválida. Escolha novamente.");
+				break;
+			}
+		} while (opcao != 0);
+	}
+
+}

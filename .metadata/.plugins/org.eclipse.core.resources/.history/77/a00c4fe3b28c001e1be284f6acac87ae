@@ -1,0 +1,101 @@
+package sistemasOperacionais;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+public class Escalonador {
+
+	private List<Processo> listaProcessos;
+
+    public void adicionarProcesso(Processo processo) {
+    	 if (listaProcessos == null) {
+             listaProcessos = new ArrayList<>();
+         }
+         listaProcessos.add(processo);
+    }
+
+    //Modelo FCFS
+    public void FCFS() {
+    	if (listaProcessos.isEmpty()) {
+            System.out.println("Não há processos na lista.");
+            return;
+        }
+
+        int tempoTotalEspera = 0;
+        System.out.println("Executando FCFS:");
+        for (Processo processo : listaProcessos) {
+            System.out.println("Executando processo ID " + processo.getId());
+
+
+            int tempoEspera = tempoTotalEspera;
+            tempoTotalEspera += processo.getTempoExecucao();
+
+            System.out.println("Processo ID " + processo.getId() + " executado.");
+            System.out.println("Tempo de espera: " + tempoEspera);
+        }
+
+        double tempoMedioEspera = (double) tempoTotalEspera / listaProcessos.size();
+        System.out.println("Tempo médio de espera: " + tempoMedioEspera);
+    
+    }
+
+    //Modelo SJF Nao Preemptivo
+    public void SJF_NaoPreemptivo() {
+    	if (listaProcessos.isEmpty()) {
+            System.out.println("Não há processos na lista.");
+            return;
+        }
+
+        listaProcessos.sort(Comparator.comparingInt(Processo::getTempoExecucao));
+
+        int tempoTotalEspera = 0;
+        System.out.println("Executando SJF Não-Preemptivo (Shortest Job First):");
+        for (Processo processo : listaProcessos) {
+            System.out.println("Executando processo ID " + processo.getId());
+
+            int tempoEspera = tempoTotalEspera;
+            tempoTotalEspera += processo.getTempoExecucao();
+
+            System.out.println("Processo ID " + processo.getId() + " executado.");
+            System.out.println("Tempo de espera: " + tempoEspera);
+        }
+
+        double tempoMedioEspera = (double) tempoTotalEspera / listaProcessos.size();
+        System.out.println("Tempo médio de espera: " + tempoMedioEspera);
+    }
+
+    public void SJF_Preemptivo() {
+        // Lógica do algoritmo de escalonamento SJF Preemptivo
+        // Utilize a listaProcessos para realizar o escalonamento
+        // ...
+    }
+
+    public void Prioridade_NaoPreemptivo() {
+        // Lógica do algoritmo de escalonamento Prioridade Não-Preemptivo
+        // Utilize a listaProcessos para realizar o escalonamento
+        // ...
+    }
+
+    public void Prioridade_Preemptivo() {
+        // Lógica do algoritmo de escalonamento Prioridade Preemptivo
+        // Utilize a listaProcessos para realizar o escalonamento
+        // ...
+    }
+
+    public void RoundRobin(int quantum) {
+        // Lógica do algoritmo de escalonamento Round-Robin
+        // Utilize a listaProcessos para realizar o escalonamento
+        // ...
+    }
+
+    public void mostrarResultado() {
+        // Lógica para exibir resultados do escalonamento
+        // ...
+    }
+    
+    public List<Processo> getListaProcessos() {
+        return listaProcessos;
+    }
+
+}

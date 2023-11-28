@@ -1,0 +1,132 @@
+package sistemasOperacionais;
+
+import java.util.Random;
+import java.util.Scanner;
+
+public class Main {
+
+	private static Scanner key;
+	static Escalonador escalonador = new Escalonador();
+
+	public static void main(String[] args) {
+		key = new Scanner(System.in);
+		modoDeEntrada();
+	}
+
+	private static void modoDeEntrada() {
+		int modoEscolhido;
+
+		do {
+			System.out.println("Escolha o modo de entrada para os processos:" + "\n[1] Automático" + "\n[2] Manual"
+					+ "\n[0] Sair");
+
+			modoEscolhido = key.nextInt();
+
+			switch (modoEscolhido) {
+			case 1:
+				adicionarProcessosAutomaticamente(escalonador);
+				exibirMenu(escalonador);
+				break;
+			case 2:
+				adicionarProcessosManualmente(escalonador);
+				exibirMenu(escalonador);
+				break;
+			case 0:
+				System.out.println("Encerrando o programa...");
+				break;
+			default:
+				System.out.println("Opção inválida. Escolha novamente.");
+				break;
+			}
+		} while (modoEscolhido != 0);
+	}
+
+	private static void adicionarProcessosAutomaticamente(Escalonador escalonador) {
+		Random random = new Random();
+		int quantidadeProcessos = 3;
+		for (int i = 0; i < quantidadeProcessos; i++) {
+			int tempoExecucao = random.nextInt(20) + 1;
+			int tempoChegada = random.nextInt(10) + 1;
+			int prioridade = random.nextInt(10) + 1;
+
+			Processo novoProcesso = new Processo(tempoExecucao, tempoChegada, prioridade);
+			escalonador.adicionarProcesso(novoProcesso);
+			System.out.println("Processo adicionado automaticamente: " + novoProcesso);
+		}
+	}
+
+	private static void adicionarProcessosManualmente(Escalonador escalonador) {
+		int opcao;
+		do {
+			System.out.println("Digite o tempo de execução do processo:");
+			int tempoExecucao = key.nextInt();
+			System.out.println("Digite o tempo de chegada do processo:");
+			int tempoChegada = key.nextInt();
+			System.out.println("Digite a prioridade do processo:");
+			int prioridade = key.nextInt();
+
+			Processo novoProcesso = new Processo(tempoExecucao, tempoChegada, prioridade);
+			escalonador.adicionarProcesso(novoProcesso);
+			System.out.println("Processo adicionado com sucesso!");
+
+			System.out.println("Deseja adicionar mais processos manualmente?" + "\n[1] Sim" + "\n[0] Não");
+			opcao = key.nextInt();
+		} while (opcao != 0);
+	}
+
+	private static void exibirMenu(Escalonador escalonador) {
+		int opcao;
+		do {
+			System.out.println("\n=====================================");
+			System.out.println("Escolha uma opção:");
+			System.out.println("1. Executar FCFS");
+			System.out.println("2. Executar SJF Não-Preemptivo");
+			System.out.println("3. Executar SJF Preemptivo");
+			System.out.println("4. Executar Prioridade Não-Preemptivo");
+			System.out.println("5. Executar Prioridade Preemptivo");
+			System.out.println("6. Executar Round-Robin");
+			System.out.println("7. Exibir resultados");
+			System.out.println("8. Popular processos automaticamente");
+			System.out.println("0. Sair");
+			System.out.println("\n=====================================");
+			opcao = key.nextInt();
+
+			switch (opcao) {
+			case 1:
+				escalonador.FCFS();
+				break;
+			case 2:
+				escalonador.SJF_NaoPreemptivo();
+				break;
+			case 3:
+				escalonador.SJF_Preemptivo();
+				break;
+			case 4:
+				escalonador.Prioridade_NaoPreemptivo();
+				break;
+			case 5:
+				escalonador.Prioridade_Preemptivo();
+				break;
+			case 6:
+				System.out.println("Informe o quantum para o Round-Robin:");
+				int quantum = key.nextInt();
+				escalonador.RoundRobin(quantum);
+				break;
+			case 7:
+				escalonador.mostrarResultado();
+				break;
+			case 8:
+				modoDeEntrada();
+				System.out.println("Processos populados automaticamente!");
+				break;
+			case 0:
+				System.out.println("Encerrando o programa...");
+				break;
+			default:
+				System.out.println("Opção inválida. Escolha novamente.");
+				break;
+			}
+		} while (opcao != 0);
+	}
+
+}
